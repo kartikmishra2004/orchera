@@ -102,8 +102,8 @@ export default function Onboarding() {
     }
 
     return (
-        <div className="w-full h-screen flex flex-col items-center bg-zinc-100 overflow-hidden px-4">
-            <button onClick={() => router.back()} className="absolute cursor-pointer top-6 left-6 text-zinc-400 hover:text-zinc-700 transition-colors">
+        <div className="w-full min-h-screen flex flex-col items-center bg-zinc-100 overflow-x-hidden px-4 py-8 md:py-0">
+            <button onClick={() => router.back()} className="absolute cursor-pointer top-6 left-6 text-zinc-400 hover:text-zinc-700 transition-colors z-10">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
                 </svg>
@@ -114,25 +114,25 @@ export default function Onboarding() {
                     ORCHERA
                 </h1>
             </header>
-            <div className="w-full max-w-262.5 flex-1 bg-white rounded-md shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex overflow-hidden mb-8 min-h-0">
-                <div className="w-[45%] p-10 lg:p-14 flex flex-col justify-center min-h-0 overflow-y-auto">
+            <div className="w-full max-w-262.5 flex-1 bg-white rounded-md shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex overflow-hidden mb-8 min-h-0 lg:h-[75vh]">
+                <div className="w-full lg:w-[45%] p-8 md:p-10 lg:p-14 flex flex-col justify-center min-h-0 overflow-y-auto">
                     <form onSubmit={onSubmit} className='h-full w-full flex flex-col justify-center gap-4 items-center'>
-                        <h1 className='text-zinc-700 text-2xl font-medium mb-4'>Let's get to know you</h1>
+                        <h1 className='text-zinc-700 text-xl md:text-2xl font-medium mb-2 md:mb-4 text-center'>Let's get to know you</h1>
 
                         <div className="flex flex-col w-full gap-1">
-                            <div className="flex items-center gap-5">
-                                <div className="w-14 h-14 rounded-full bg-zinc-50 flex items-center justify-center overflow-hidden border border-zinc-200 shrink-0">
+                            <div className="flex items-center gap-4 md:gap-5">
+                                <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-zinc-50 flex items-center justify-center overflow-hidden border border-zinc-200 shrink-0">
                                     {avatarPreview ? (
                                         <img src={avatarPreview} alt="Avatar preview" className="w-full h-full object-cover" />
                                     ) : (
-                                        <svg className="w-7 h-7 text-zinc-200" fill="currentColor" viewBox="0 0 24 24">
+                                        <svg className="w-6 h-6 md:w-7 md:h-7 text-zinc-200" fill="currentColor" viewBox="0 0 24 24">
                                             <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                                         </svg>
                                     )}
                                 </div>
                                 <div className="flex flex-col gap-0.5">
-                                    <h3 className="text-zinc-500 mb-3 text-sm font-normal">Profile picture</h3>
-                                    <label htmlFor="avatar-upload" className="w-full gap-2 flex justify-center items-center text-xs font-normal text-zinc-700 h-8 cursor-pointer rounded-sm border-zinc-200 border-2">
+                                    <h3 className="text-zinc-500 mb-2 md:mb-3 text-xs md:text-sm font-normal">Profile picture</h3>
+                                    <label htmlFor="avatar-upload" className="w-full px-4 gap-2 flex justify-center items-center text-[10px] md:text-xs font-normal text-zinc-700 h-8 cursor-pointer rounded-sm border-zinc-200 border-2 hover:bg-zinc-50 transition-colors">
                                         Upload image
                                     </label>
                                     <input
@@ -146,14 +146,14 @@ export default function Onboarding() {
                                     {uploadError ? (
                                         <p className="text-[10px] text-red-500">{uploadError}</p>
                                     ) : (
-                                        <p className="text-[10px] text-zinc-400">.png, .jpeg files up to 8mb at least 500px by 500px</p>
+                                        <p className="text-[10px] text-zinc-400">.png, .jpeg files up to 8mb</p>
                                     )}
                                 </div>
                             </div>
                         </div>
 
                         <div className="flex flex-col w-full gap-1">
-                            <label htmlFor="fullName" className="text-zinc-500 text-sm font-normal">Full name</label>
+                            <label htmlFor="fullName" className="text-zinc-500 text-xs md:text-sm font-normal">Full name</label>
                             <input
                                 id="fullName"
                                 type="text"
@@ -166,7 +166,7 @@ export default function Onboarding() {
                         </div>
 
                         <div className="flex flex-col w-full gap-1">
-                            <label htmlFor="password" className="text-zinc-500 text-sm font-normal">Password</label>
+                            <label htmlFor="password" className="text-zinc-500 text-xs md:text-sm font-normal">Password</label>
                             <input
                                 autoComplete='off'
                                 id="password"
@@ -179,7 +179,7 @@ export default function Onboarding() {
                         </div>
 
                         <div className="flex flex-col w-full gap-1">
-                            <label htmlFor="confirmPassword" className="text-zinc-500 text-sm font-normal">Confirm password</label>
+                            <label htmlFor="confirmPassword" className="text-zinc-500 text-xs md:text-sm font-normal">Confirm password</label>
                             <input
                                 id="confirmPassword"
                                 type="password"
@@ -193,7 +193,7 @@ export default function Onboarding() {
                         <button
                             disabled={isSubmitting || !fullName || !password || !confirmPassword || !!uploadError}
                             type="submit"
-                            className='bg-blue-400 disabled:bg-blue-300 disabled:cursor-not-allowed h-9 rounded-sm w-full text-sm font-normal text-zinc-50 cursor-pointer'
+                            className='bg-blue-400 disabled:bg-blue-300 disabled:cursor-not-allowed h-9 rounded-sm w-full text-sm font-normal text-zinc-50 cursor-pointer shadow-lg shadow-blue-400/20 transition-all'
                         >
                             {isSubmitting ? "Creating account..." : "Create account"}
                         </button>
@@ -269,8 +269,8 @@ export default function Onboarding() {
                     </div>
                 </div>
             </div>
-            <footer className="h-10 w-[25vw] flex justify-center items-center mb-6">
-                <ul className="w-full px-10 text-zinc-400 flex justify-between text-xs">
+            <footer className="w-full max-w-md flex justify-center items-center mb-10 pb-4">
+                <ul className="w-full px-6 text-zinc-400 flex flex-wrap justify-center gap-x-6 gap-y-2 text-[10px] md:text-xs">
                     <li>
                         <Link href='/'>
                             © Orchera systems

@@ -14,25 +14,42 @@ export async function register(payload: RegisterPayload) {
                 credentials: 'include',
             }
         )
-        return res.json();
+        const data = await res.json();
+        if (!res.ok) {
+            return {
+                success: false,
+                message: data.message || "Registration failed"
+            };
+        }
+        return {
+            success: true,
+            data: data.data,
+            message: data.message || "Registration successful"
+        };
     } catch (error) {
-        console.log("Failed to register user!!")
+        console.error("Failed to register user!!", error);
+        return {
+            success: false,
+            message: "Network error. Please check your connection."
+        };
     }
 }
 
 export async function uploadAvatar(avatar: File) {
     const data = new FormData();
     data.append("file", avatar);
-    data.append("upload_preset", clientEnv.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET);
+    data.append("upload_preset", clientEnv.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!);
     try {
-        const res = await fetch(clientEnv.NEXT_PUBLIC_CLOUDINARY_URL, {
+        const res = await fetch(clientEnv.NEXT_PUBLIC_CLOUDINARY_URL!, {
             method: "POST",
             body: data
         });
+        if (!res.ok) throw new Error("Cloudinary upload failed");
         const result = await res.json();
         return result.secure_url;
     } catch (error) {
-        console.log("Failed to upload to cloudinary!!")
+        console.error("Failed to upload to cloudinary!!", error);
+        throw error;
     }
 }
 
@@ -49,9 +66,24 @@ export async function login(payload: LoginPayload) {
                 credentials: 'include',
             }
         );
-        return res.json();
+        const data = await res.json();
+        if (!res.ok) {
+            return {
+                success: false,
+                message: data.message || "Login failed"
+            };
+        }
+        return {
+            success: true,
+            data: data.data,
+            message: data.message || "Login successful"
+        };
     } catch (error) {
-        console.log("Failed to login user!!");
+        console.error("Failed to login user!!", error);
+        return {
+            success: false,
+            message: "Network error. Please check your connection."
+        };
     }
 }
 
@@ -64,9 +96,24 @@ export async function refresh() {
                 credentials: 'include',
             }
         );
-        return res.json();
+        const data = await res.json();
+        if (!res.ok) {
+            return {
+                success: false,
+                message: data.message || "Session expired"
+            };
+        }
+        return {
+            success: true,
+            data: data.data,
+            message: data.message || "Session refreshed"
+        };
     } catch (error) {
-        console.log("Failed to refresh token!!")
+        console.error("Failed to refresh token!!", error);
+        return {
+            success: false,
+            message: "Failed to refresh session"
+        };
     }
 }
 
@@ -79,8 +126,22 @@ export async function logout() {
                 credentials: 'include',
             }
         );
-        return res.json();
+        const data = await res.json();
+        if (!res.ok) {
+            return {
+                success: false,
+                message: data.message || "Logout failed"
+            };
+        }
+        return {
+            success: true,
+            message: data.message || "Logged out successfully"
+        };
     } catch (error) {
-        console.log("Failed to logout user!!")
+        console.error("Failed to logout user!!", error);
+        return {
+            success: false,
+            message: "Failed to logout"
+        };
     }
 }

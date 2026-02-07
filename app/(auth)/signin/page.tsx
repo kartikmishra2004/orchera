@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import { toast } from 'sonner';
 
 export default function Signin() {
     const router = useRouter();
@@ -23,15 +24,25 @@ export default function Signin() {
     }
 
     const { loginUser } = useAuth();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setIsSubmitting(true);
         try {
             const res = await loginUser(formData);
-            console.log(res.message);
-            router.replace("/dashboard");
+            console.log(res)
+            if (res.success) {
+                toast.success(res.message);
+                router.replace("/dashboard");
+            } else {
+                toast.error(res.message);
+            }
         } catch (error) {
-            console.log("Failed to signin", error);
+            console.error("Failed to signin", error);
+            toast.error("An unexpected error occurred. Please try again.");
+        } finally {
+            setIsSubmitting(false);
         }
     }
 
@@ -73,7 +84,9 @@ export default function Signin() {
                         <input name='password' value={formData.password} onChange={onChange} placeholder='Enter your password' autoComplete='off' id='Password' type="password" className='rounded-sm px-2 text-sm font-normal text-zinc-700 border-zinc-200 border-2 h-9 placeholder:text-sm placeholder:text-zinc-200 placeholder:font-normal focus:outline-zinc-500' />
                     </div>
                     <p className='text-zinc-400 text-xs'>Don't have an account? <Link href='/signup' className='text-blue-400 hover:underline cursor-pointer'>Sign up</Link></p>
-                    <button disabled={!formData.email || !formData.password} type='submit' className='bg-blue-400 disabled:bg-blue-300 disabled:cursor-not-allowed h-9 rounded-sm w-full text-sm font-normal text-zinc-50 cursor-pointer'>Continue</button>
+                    <button disabled={isSubmitting || !formData.email || !formData.password} type='submit' className='bg-blue-400 disabled:bg-blue-300 disabled:cursor-not-allowed h-9 rounded-sm w-full text-sm font-normal text-zinc-50 cursor-pointer'>
+                        {isSubmitting ? "Signing in..." : "Continue"}
+                    </button>
                 </form>
                 <div className="w-full h-10 flex justify-center items-center">
                     <ul className="w-full px-10 text-zinc-400 flex justify-between text-xs">

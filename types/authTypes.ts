@@ -14,14 +14,17 @@ export type RegisterPayload = {
 }
 
 export type RegisterReturnType = {
+    success: boolean;
     message: string;
 }
 
 export type LoginReturnType = {
+    success: boolean;
     message: string;
 }
 
 export type LogoutReturnType = {
+    success: boolean;
     message: string;
 }
 

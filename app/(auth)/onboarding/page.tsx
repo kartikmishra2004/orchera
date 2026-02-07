@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { register, uploadAvatar } from '@/lib/api/auth';
 import { RegisterPayload } from '@/types/authTypes';
 import { useAuth } from "@/context/AuthContext";
+import { toast } from 'sonner';
 
 export default function Onboarding() {
     const router = useRouter();
@@ -15,6 +16,7 @@ export default function Onboarding() {
     const [avatarFile, setAvatarFile] = useState<File | null>(null);
     const [avatarPreview, setAvatarPreview] = useState<string>('');
     const [uploadError, setUploadError] = useState<string>('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const { registerUser } = useAuth();
 
     const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,11 +29,13 @@ export default function Onboarding() {
 
         if (!validTypes.includes(file.type)) {
             setUploadError('Please upload a .png or .jpeg file');
+            toast.error('Please upload a .png or .jpeg file');
             return;
         }
 
         if (file.size > maxSize) {
             setUploadError('File size must be less than 8MB');
+            toast.error('File size must be less than 8MB');
             return;
         }
 
@@ -41,6 +45,7 @@ export default function Onboarding() {
         img.onload = () => {
             if (img.width < 500 || img.height < 500) {
                 setUploadError('Image must be at least 500px by 500px');
+                toast.error('Image must be at least 500px by 500px');
                 URL.revokeObjectURL(objectUrl);
             } else {
                 setUploadError('');
@@ -57,18 +62,20 @@ export default function Onboarding() {
         const email = sessionStorage.getItem("email");
 
         if (!email) {
+            toast.error("Session missing. Please start over.");
             router.replace("/signup");
             return;
         }
 
         if (password !== confirmPassword) {
-            console.log("Password does not match!!");
+            toast.error("Passwords do not match");
             return;
         }
 
 
         if (!avatarFile) {
-            throw new Error("Avatar file is required");
+            toast.error("Please upload a profile picture");
+            return;
         }
 
         const payload: RegisterPayload = {
@@ -77,12 +84,20 @@ export default function Onboarding() {
             password,
         }
 
+        setIsSubmitting(true);
         try {
             const res = await registerUser(payload, avatarFile);
-            console.log(res.message);
-            router.replace("/dashboard");
+            if (res.success) {
+                toast.success(res.message);
+                router.replace("/dashboard");
+            } else {
+                toast.error(res.message);
+            }
         } catch (error) {
-            console.log("Failed to onboard!!", error);
+            console.error("Failed to onboard!!", error);
+            toast.error("An unexpected error occurred. Please try again.");
+        } finally {
+            setIsSubmitting(false);
         }
     }
 
@@ -176,11 +191,11 @@ export default function Onboarding() {
                         </div>
 
                         <button
-                            disabled={!fullName || !password || !confirmPassword}
+                            disabled={isSubmitting || !fullName || !password || !confirmPassword || !!uploadError}
                             type="submit"
                             className='bg-blue-400 disabled:bg-blue-300 disabled:cursor-not-allowed h-9 rounded-sm w-full text-sm font-normal text-zinc-50 cursor-pointer'
                         >
-                            Create account
+                            {isSubmitting ? "Creating account..." : "Create account"}
                         </button>
                     </form>
                 </div>

@@ -2,6 +2,7 @@
 import { refresh, register, uploadAvatar, login, logout } from "@/lib/api/auth"
 import { AuthContextType, LoginPayload, LogoutReturnType, RegisterPayload, RegisterReturnType, User } from "@/types/authTypes"
 import { createContext, useContext, useState, useEffect } from "react"
+import LoadingSpinner from "@/components/LoadingSpinner"
 
 const AuthContext = createContext<AuthContextType | null>(null)
 
@@ -35,12 +36,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             }
 
             return {
+                success: res.success,
                 message: res.message,
             };
 
         } catch (error) {
             console.error("Failed to register!!", error);
             return {
+                success: false,
                 message: "Registration failed!!",
             };
         }
@@ -58,12 +61,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             }
 
             return {
+                success: res.success,
                 message: res.message,
             };
 
         } catch (error) {
             console.error("Login failed!!", error);
             return {
+                success: false,
                 message: "Login failed!!",
             };
         }
@@ -78,12 +83,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 setAccessToken(null);
             }
             return {
+                success: res.success,
                 message: res.message,
             }
 
         } catch (error) {
             console.error("Logout failed!!", error);
             return {
+                success: false,
                 message: "Logout failed!!",
             };
         }
@@ -114,7 +121,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         <AuthContext.Provider
             value={{ user, accessToken, loading, registerUser, loginUser, logoutUser, refreshUser }}
         >
-            {!loading && children}
+            {loading ? <LoadingSpinner /> : children}
         </AuthContext.Provider>
     )
 }

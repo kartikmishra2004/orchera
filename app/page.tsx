@@ -1,24 +1,12 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import Footer from '@/components/Footer'
+import Navbar from '@/components/Navbar'
 
 export default function Home() {
   return (
     <div className="w-full min-h-screen flex flex-col">
-      <header className="w-full fixed z-999 bg-zinc-50 h-16 border-b border-zinc-200 flex justify-between items-center px-8">
-        <h1 className="font-semibold text-zinc-700 gap-1 flex items-center">
-          <Image alt='' src='logo.svg' width={19} height={19} />
-          ORCHERA
-        </h1>
-        <nav className="flex gap-6 items-center">
-          <Link href="/" className="text-sm text-zinc-500 hover:text-zinc-700">Pricing</Link>
-          <Link href="/" className="text-sm text-zinc-500 hover:text-zinc-700">Support</Link>
-          <Link href="/signin" className="text-sm text-zinc-700 hover:text-zinc-900">Sign in</Link>
-          <Link href="/signup" className="bg-blue-400 hover:bg-blue-500 h-8 px-4 rounded-sm text-sm font-normal text-zinc-50 flex items-center">
-            Sign up
-          </Link>
-        </nav>
-      </header>
+      <Navbar />
 
       <main className="flex-1 w-full min-h-screen flex flex-col justify-center items-center px-8">
         <div className="max-w-2xl text-center space-y-6">

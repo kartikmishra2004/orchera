@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 
 export default function Signin() {
     const router = useRouter();
@@ -21,10 +22,14 @@ export default function Signin() {
         }));
     }
 
-    const onSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
+    const { loginUser } = useAuth();
+
+    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-
+            const res = await loginUser(formData);
+            console.log(res.message);
+            router.replace("/dashboard");
         } catch (error) {
             console.log("Failed to signin", error);
         }

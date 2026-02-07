@@ -9,13 +9,10 @@ export default function Signup() {
 
     const [email, setEmail] = useState('');
 
-    const onSubmit = (e: any) => {
+    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        try {
-
-        } catch (error) {
-            console.log("Failed to signin", error);
-        }
+        sessionStorage.setItem("email", email);
+        router.push("/onboarding");
     }
 
     return (
@@ -25,11 +22,13 @@ export default function Signup() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
                 </svg>
             </button>
-            <div className="w-[25vw] h-[95vh] flex flex-col justify-between">
-                <h1 className="w-full font-semibold h-10 tracking-tigh text text-zinc-700 gap-1 flex justify-center items-center">
-                    <Image alt='' src='logo.svg' width={19} height={19} />
-                    ORCHERA
-                </h1>
+            <div className="w-[25vw] h-screen flex flex-col justify-between">
+                <header className="w-full max-w-275 h-12 flex justify-center items-center my-6 shrink-0">
+                    <h1 className="w-full font-semibold h-10 tracking-tigh text text-zinc-700 gap-1 flex justify-center items-center">
+                        <Image alt='' src='logo.svg' width={19} height={19} />
+                        ORCHERA
+                    </h1>
+                </header>
                 <form onSubmit={onSubmit} className='h-full w-full flex flex-col justify-center gap-4 items-center'>
                     <h1 className='text-zinc-700 text-xl font-medium'>Sign up</h1>
                     <div className="w-full space-y-3">
@@ -54,7 +53,7 @@ export default function Signup() {
                     <p className='text-zinc-400 text-xs'>Already have an account? <Link href='/signin' className='text-blue-400 hover:underline cursor-pointer'>Sign in</Link></p>
                     <button disabled={!email} type='submit' className='bg-blue-400 disabled:bg-blue-300 disabled:cursor-not-allowed h-9 rounded-sm w-full text-sm font-normal text-zinc-50 cursor-pointer'>Continue</button>
                 </form>
-                <div className="w-full h-10 flex justify-center items-center">
+                <footer className="w-full h-10 flex justify-center items-center mb-6">
                     <ul className="w-full px-10 text-zinc-400 flex justify-between text-xs">
                         <li>
                             <Link href='/'>
@@ -77,7 +76,7 @@ export default function Signup() {
                             </Link>
                         </li>
                     </ul>
-                </div>
+                </footer>
             </div>
         </div>
     );

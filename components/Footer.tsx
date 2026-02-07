@@ -2,16 +2,16 @@ import Image from "next/image";
 
 export default function Footer() {
     return (
-        <footer className="w-full border-t border-zinc-200 bg-white">
-            <div className="max-w-6xl mx-auto px-8 py-12">
-                <div className="grid grid-cols-5 gap-8">
-                    <div className="col-span-2 space-y-4">
+        <footer className="w-full border-t border-zinc-200 bg-zinc-50/50">
+            <div className="max-w-7xl mx-auto px-8 py-16">
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-12">
+                    <div className="col-span-1 md:col-span-2 space-y-4">
                         <h1 className="font-semibold text-zinc-700 gap-1 flex items-center">
                             <Image alt='' src='logo.svg' width={19} height={19} />
                             ORCHERA
                         </h1>
                         <p className="text-sm text-zinc-500 leading-relaxed max-w-xs">
-                            Modern project management tools designed to help teams collaborate, organize, and deliver exceptional results.
+                            Modern project management platform that helps teams plan, organize, and execute projects with ease.
                         </p>
                         <div className="flex gap-3 pt-2">
                             <a href="/" className="w-8 h-8 rounded-sm border border-zinc-200 hover:border-zinc-300 flex items-center justify-center text-zinc-500 hover:text-zinc-700">

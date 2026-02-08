@@ -1,6 +1,6 @@
 export default function Dashboard() {
     return (
-        <div className="w-full h-screen flex justify-center items-center">
+        <div className="w-full h-screen flex justify-center items-center bg-white">
             Dashboard
         </div>
     )

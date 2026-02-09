@@ -101,8 +101,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             const res = await refresh();
 
             if (!res.success) {
-                setUser(null);
-                setAccessToken(null);
+                await logoutUser();
                 return;
             }
 
@@ -116,6 +115,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setLoading(false);
         }
     }
+
+    useEffect(() => {
+        if (!user || !accessToken) return;
+
+        const REFRESH_INTERVAL = 14 * 60 * 1000;
+
+        const intervalId = setInterval(() => {
+            refreshUser();
+        }, REFRESH_INTERVAL);
+
+        return () => clearInterval(intervalId);
+    }, [user, accessToken]);
 
     return (
         <AuthContext.Provider

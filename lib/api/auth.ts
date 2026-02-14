@@ -145,3 +145,7 @@ export async function logout() {
         };
     }
 }
+
+export function initGoogleAuth() {
+    window.location.href = `${clientEnv.NEXT_PUBLIC_AUTH_SERVICE_URL}/api/auth/google`;
+}

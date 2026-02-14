@@ -4,7 +4,7 @@ import { clientEnv } from "@/env/client";
 export async function register(payload: RegisterPayload) {
     try {
         const res = await fetch(
-            `${clientEnv.NEXT_PUBLIC_AUTH_SERVICE_URL}/api/auth/register`,
+            `/api/auth/register`,
             {
                 method: "POST",
                 headers: {
@@ -56,7 +56,7 @@ export async function uploadAvatar(avatar: File) {
 export async function login(payload: LoginPayload) {
     try {
         const res = await fetch(
-            `${clientEnv.NEXT_PUBLIC_AUTH_SERVICE_URL}/api/auth/login`,
+            `/api/auth/login`,
             {
                 method: "POST",
                 headers: {
@@ -90,7 +90,7 @@ export async function login(payload: LoginPayload) {
 export async function refresh() {
     try {
         const res = await fetch(
-            `${clientEnv.NEXT_PUBLIC_AUTH_SERVICE_URL}/api/auth/refresh-token`,
+            `/api/auth/refresh-token`,
             {
                 method: "GET",
                 credentials: 'include',
@@ -120,7 +120,7 @@ export async function refresh() {
 export async function logout() {
     try {
         const res = await fetch(
-            `${clientEnv.NEXT_PUBLIC_AUTH_SERVICE_URL}/api/auth/logout`,
+            `/api/auth/logout`,
             {
                 method: "POST",
                 credentials: 'include',
@@ -144,8 +144,4 @@ export async function logout() {
             message: "Failed to logout"
         };
     }
-}
-
-export function initGoogleAuth() {
-    window.location.href = `${clientEnv.NEXT_PUBLIC_AUTH_SERVICE_URL}/api/auth/google`;
 }

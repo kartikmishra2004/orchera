@@ -1,9 +1,10 @@
 'use client'
 import Link from 'next/link'
-import Image from 'next/image';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { initGoogleAuth } from '@/lib/api/auth';
+import AuthLogo from '@/components/auth/AuthLogo';
+import AuthFooter from '@/components/auth/AuthFooter';
 
 export default function Signup() {
     const router = useRouter();
@@ -22,19 +23,14 @@ export default function Signup() {
     }
 
     return (
-        <div className="w-full h-screen flex justify-center items-center bg-white">
-            <button onClick={() => router.back()} className="absolute cursor-pointer top-6 left-6 text-zinc-400 hover:text-zinc-700 transition-colors">
+        <div className="w-full h-screen flex justify-center items-center bg-white relative">
+            <button onClick={() => router.back()} className="absolute cursor-pointer top-6 left-6 text-zinc-400 hover:text-zinc-700 transition-colors z-10">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
                 </svg>
             </button>
-            <div className="w-full max-w-md px-6 h-screen flex flex-col justify-between py-12 md:py-0">
-                <header className="w-full max-w-275 h-12 flex justify-center items-center my-6 shrink-0">
-                    <h1 className="w-full font-semibold h-10 tracking-tigh text text-zinc-700 gap-1 flex justify-center items-center">
-                        <Image alt='' src='logo.svg' width={19} height={19} />
-                        ORCHERA
-                    </h1>
-                </header>
+            <div className="w-full max-w-md px-6 flex flex-col justify-between py-6 h-full">
+                <AuthLogo />
                 <form onSubmit={onSubmit} className='h-full w-full flex flex-col justify-center gap-4 items-center'>
                     <h1 className='text-zinc-700 text-xl font-medium'>Sign up</h1>
                     <div className="w-full space-y-3">
@@ -53,30 +49,7 @@ export default function Signup() {
                     <p className='text-zinc-400 text-xs'>Already have an account? <Link href='/signin' className='text-blue-400 hover:underline cursor-pointer'>Sign in</Link></p>
                     <button disabled={!email} type='submit' className='bg-blue-400 disabled:bg-blue-300 disabled:cursor-not-allowed h-9 rounded-sm w-full text-sm font-normal text-zinc-50 cursor-pointer transition-all shadow-lg shadow-blue-400/20'>Continue</button>
                 </form>
-                <footer className="w-full mt-12 md:mt-0 md:h-10 flex justify-center items-center mb-6">
-                    <ul className="w-full px-4 md:px-10 text-zinc-400 flex flex-wrap justify-center md:justify-between gap-x-6 gap-y-2 text-[10px] md:text-xs">
-                        <li>
-                            <Link href='/'>
-                                © Orchera systems
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href='/'>
-                                Privacy
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href='/'>
-                                Support
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href='/'>
-                                Pricing
-                            </Link>
-                        </li>
-                    </ul>
-                </footer>
+                <AuthFooter />
             </div>
         </div>
     );

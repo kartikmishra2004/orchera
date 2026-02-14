@@ -1,11 +1,12 @@
 'use client'
 import Link from 'next/link'
-import Image from 'next/image';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
 import { initGoogleAuth } from '@/lib/api/auth';
+import AuthLogo from '@/components/auth/AuthLogo';
+import AuthFooter from '@/components/auth/AuthFooter';
 
 export default function Signin() {
     const router = useRouter();
@@ -53,17 +54,14 @@ export default function Signin() {
     }
 
     return (
-        <div className="w-full h-screen flex justify-center items-center bg-white">
-            <button onClick={() => router.back()} className="absolute cursor-pointer top-6 left-6 text-zinc-400 hover:text-zinc-700 transition-colors">
+        <div className="w-full h-screen flex justify-center items-center bg-white relative">
+            <button onClick={() => router.back()} className="absolute cursor-pointer top-6 left-6 text-zinc-400 hover:text-zinc-700 transition-colors z-10">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
                 </svg>
             </button>
-            <div className="w-full max-w-md px-6 flex flex-col justify-between py-12 md:py-0 md:h-[95vh]">
-                <h1 className="w-full font-semibold h-10 tracking-tigh text text-zinc-700 gap-1 flex justify-center items-center">
-                    <Image alt='' src='logo.svg' width={19} height={19} />
-                    ORCHERA
-                </h1>
+            <div className="w-full max-w-md px-6 flex flex-col justify-between py-6 h-full">
+                <AuthLogo />
                 <form onSubmit={onSubmit} className='h-full w-full flex flex-col justify-center gap-4 items-center'>
                     <h1 className='text-zinc-700 text-xl font-medium'>Sign in</h1>
                     <div className="w-full space-y-3">
@@ -88,30 +86,7 @@ export default function Signin() {
                         {isSubmitting ? "Signing in..." : "Continue"}
                     </button>
                 </form>
-                <div className="w-full mt-12 md:mt-0 md:h-10 flex justify-center items-center">
-                    <ul className="w-full px-4 md:px-10 text-zinc-400 flex flex-wrap justify-center md:justify-between gap-x-6 gap-y-2 text-[10px] md:text-xs">
-                        <li>
-                            <Link href='/'>
-                                © Orchera systems
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href='/'>
-                                Privacy
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href='/'>
-                                Support
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href='/'>
-                                Pricing
-                            </Link>
-                        </li>
-                    </ul>
-                </div>
+                <AuthFooter />
             </div>
         </div>
     );
